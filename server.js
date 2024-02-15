@@ -1,3 +1,4 @@
+// Various packages used to run
 const express = require('express');
 const inquirer = require('inquirer');
 const mysql = require('mysql2');
@@ -15,6 +16,7 @@ const connection = mysql.createConnection({
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
+// List choices to begin the process of running the employee tracker along with the functions used to complete each task 
 function startQuestions() {
   inquirer.prompt([
     {
@@ -51,6 +53,7 @@ function startQuestions() {
   });
 }
 
+// Function allows you to view all departments 
 function viewAllDepartments() {
   const sql = 'SELECT * FROM department'; 
   connection.query(sql, (err, res) => {
@@ -60,6 +63,7 @@ function viewAllDepartments() {
   });
 }
 
+// Function allows you to view each role 
 function viewAllRoles() {
   const sql = 'SELECT * FROM role'; 
   connection.query(sql, (err, res) => {
@@ -69,6 +73,7 @@ function viewAllRoles() {
   });
 }
 
+// Function allows you to view each employee 
 function viewallEmployees() {
   const sql = 'SELECT * FROM employee';
   connection.query(sql, (err, res) => {
@@ -78,6 +83,7 @@ function viewallEmployees() {
   });
 }
 
+// Function allows you to add a department 
 function addDepartment() {
   inquirer.prompt({
     type: 'input',
@@ -95,6 +101,7 @@ function addDepartment() {
   });
 }
 
+// Function allows you to add a role 
 function addRole() {
   const sql = 'SELECT * FROM department';
   connection.query(sql, (err, res) => {
@@ -131,6 +138,7 @@ function addRole() {
   });
 }
 
+// Function allows you to add an employee 
 function addEmployee() {
   const sql = `SELECT title, id FROM role`;
   connection.query(sql, (err, roles) => {
@@ -162,7 +170,7 @@ function addEmployee() {
           message: "Select the employee manager:",
           choices: [
             { name: "None", value: null },
-            // Add your manager objects here
+            
           ],
         },
       ])
@@ -179,7 +187,7 @@ function addEmployee() {
 }
 
 
-
+// Function allows you to update the role (role_id) of the employee 
 function updateEmployeeRole() {
   const sqlEmployee = 'SELECT employee.id, employee.first_name, employee.last_name, employee.role_id FROM employee';
   const sqlRole = 'SELECT * FROM role';
